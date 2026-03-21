@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(update-config)",
+      "Bash(scoop list:*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd 'D:/courses/web application/demo' && { git diff --quiet && git diff --staged --quiet && [ -z \"$(git ls-files --others --exclude-standard)\" ]; } || { git add -A && git commit -m \"auto: $(date '+%Y-%m-%d %H:%M:%S') [claude]\" && git push; } 2>/dev/null || true",
+            "async": true,
+            "statusMessage": "Auto-committing..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$json = $input | ConvertFrom-Json; $f = $json.tool_input.file_path; if ($f -and $f.EndsWith(\".java\")) { Set-Location \"D:/courses/web application/demo\"; mvn spotless:apply -q 2>$null }; exit 0",
+            "timeout": 60,
+            "statusMessage": "Formatting Java..."
+          }
+        ]
+      }
+    ]
+  }
+}
