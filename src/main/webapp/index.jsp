@@ -12,7 +12,7 @@
 </head>
 <body>
    <center>
-       <from action="" method="post">
+       <form action="" method="post">
            <table>
                <tr>
                    <td>user</td>
@@ -32,7 +32,7 @@
                    <td><input type="reset" value="重置"></td>
                </tr>
            </table>
-       </from>
+       </form>
    </center>
 </body>
 </html>
